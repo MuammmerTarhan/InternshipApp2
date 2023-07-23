@@ -1,22 +1,37 @@
-// src/screens/ForgetPasswordScreen.tsx
+// src/screens/ActivateUserScreen.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
-const ForgetPasswordScreen: React.FC = () => {
+// Assume this is your user data containing email and enabled fields
+import dataCSV from '../utils/data'; // Import your data here
+
+const ActivateUserScreen: React.FC = () => {
   const [email, setEmail] = useState('');
 
-  const handleResetPassword = () => {
-    // Implement your logic for resetting the password here
-    console.log('Reset Password button pressed!');
-    console.log('Email:', email);
-    // Additional logic for resetting the password can be added here
+  const handleActivateUser = () => {
+    // Assuming dataCSV is an array of user objects with 'email' and 'enabled' fields
+    const usersData = dataCSV.split('\n').slice(1); // Remove the header row and split into individual rows
+    const userDataArray = usersData.map((row) => row.split(',')); // Split each row into an array
+
+    const foundUser = userDataArray.find((user) => user[1] === email && user[4] === '1');
+
+    if (foundUser) {
+      // User exists in data and is enabled (enabled is 1)
+      // Simulate sending the activation email with a timeout
+      setTimeout(() => {
+        Alert.alert('Success', 'Activation email sent successfully.');
+        // Additional logic after sending the email can be added here if needed
+      }, 1500); // Delay of 1.5 seconds
+    } else {
+      Alert.alert('Error', 'Invalid email or user is already activated.');
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Forget Password Screen</Text>
+      <Text style={styles.text}>Activate User Screen</Text>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Enter your email:</Text>
+        <Text style={styles.label}>Email:</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter your email"
@@ -26,7 +41,7 @@ const ForgetPasswordScreen: React.FC = () => {
           autoCapitalize="none"
         />
       </View>
-      <Button title="Reset Password" onPress={handleResetPassword} />
+      <Button title="Activate User" onPress={handleActivateUser} />
     </View>
   );
 };
@@ -62,4 +77,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgetPasswordScreen;
+export default ActivateUserScreen;

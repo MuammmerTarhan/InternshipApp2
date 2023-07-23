@@ -1,72 +1,29 @@
 // src/screens/ActivateUserScreen.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+
+// Assume this is your user data containing email and enabled fields
+import dataCSV from '../utils/data'; // Import your data here
 
 const ActivateUserScreen: React.FC = () => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // To toggle password visibility
-  const [hasUppercase, setHasUppercase] = useState(false);
-  const [hasLowercase, setHasLowercase] = useState(false);
-  const [hasNumber, setHasNumber] = useState(false);
-  const [hasSpecialSymbol, setHasSpecialSymbol] = useState(false);
-  const navigation = useNavigation();
-
-  // Regular expressions for each password condition
-  const uppercaseRegex = /[A-Z]/;
-  const lowercaseRegex = /[a-z]/;
-  const numberRegex = /\d/;
-  const specialSymbolRegex = /[@$.!+\-]/;
-
-  const handlePasswordChange = (text: string) => {
-    setPassword(text);
-
-    // Check if password meets each condition and update state variables accordingly
-    setHasUppercase(uppercaseRegex.test(text));
-    setHasLowercase(lowercaseRegex.test(text));
-    setHasNumber(numberRegex.test(text));
-    setHasSpecialSymbol(specialSymbolRegex.test(text));
-  };
-
-  const handleTogglePasswordVisibility = () => {
-    setIsPasswordVisible((prevValue) => !prevValue);
-  };
 
   const handleActivateUser = () => {
-    if (
-      !hasUppercase ||
-      !hasLowercase ||
-      !hasNumber ||
-      !hasSpecialSymbol ||
-      password.length < 8 ||
-      password.length > 32
-    ) {
-      Alert.alert(
-        'Invalid Password',
-        'Please ensure that the password meets the following conditions:\n\n' +
-          '- Must have at least one uppercase character\n' +
-          '- Must have at least one lowercase character\n' +
-          '- Must have at least one numeric character\n' +
-          '- Must have at least one special symbol among @$.!-+\n' +
-          '- Password length should be between 8 and 32 characters.'
-      );
-      return;
-    }
+    // Assuming dataCSV is an array of user objects with 'email' and 'enabled' fields
+    const usersData = dataCSV.split('\n').slice(1); // Remove the header row and split into individual rows
+    const userDataArray = usersData.map((row) => row.split(',')); // Split each row into an array
 
-    // Check if passwords match before proceeding
-    if (password !== confirmPassword) {
-      Alert.alert("Passwords don't match. Please try again.");
-      return;
-    }
+    const foundUser = userDataArray.find((user) => user[1] === email && user[4] === '0');
 
-    // Implement your activate user logic here
-    console.log('Activate User button pressed!');
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Additional logic to activate the user can be added here
+    if (foundUser) {
+      // User exists in data and is not enabled (enabled is 0)
+      Alert.alert('Success', 'User activation mail send successful.');
+      // Additional logic to enable the user can be added here if needed
+    } else {
+      Alert.alert('Error', 'Invalid email or user is already activated.');
+    }
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Activate User Screen</Text>
@@ -80,34 +37,6 @@ const ActivateUserScreen: React.FC = () => {
           keyboardType="email-address"
           autoCapitalize="none"
         />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Password:</Text>
-        <Button title={isPasswordVisible ? 'Hide' : 'Show'} onPress={handleTogglePasswordVisibility} />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your password"
-          onChangeText={handlePasswordChange}
-          value={password}
-          secureTextEntry={!isPasswordVisible} // Hide password if isPasswordVisible is false
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Confirm Password:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm your password"
-          onChangeText={(text) => setConfirmPassword(text)}
-          value={confirmPassword}
-          secureTextEntry
-        />
-      </View>
-      <View style={styles.conditionsContainer}>
-        <Text style={[styles.conditionText, hasUppercase && styles.validCondition]}>At least one uppercase character</Text>
-        <Text style={[styles.conditionText, hasLowercase && styles.validCondition]}>At least one lowercase character</Text>
-        <Text style={[styles.conditionText, hasNumber && styles.validCondition]}>At least one numeric character</Text>
-        <Text style={[styles.conditionText, hasSpecialSymbol && styles.validCondition]}>At least one special symbol among @$.!-+</Text>
-        <Text style={[styles.conditionText, password.length >= 8 && password.length <= 32 && styles.validCondition]}>Password length between 8 and 32 characters</Text>
       </View>
       <Button title="Activate User" onPress={handleActivateUser} />
     </View>
@@ -142,18 +71,6 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 5,
     padding: 10,
-  },
-  conditionsContainer: {
-    alignSelf: 'stretch',
-    marginVertical: 10,
-  },
-  conditionText: {
-    fontSize: 16,
-    marginBottom: 5,
-    color: 'red',
-  },
-  validCondition: {
-    color: 'green',
   },
 });
 

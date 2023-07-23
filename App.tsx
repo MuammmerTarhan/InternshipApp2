@@ -12,6 +12,8 @@ type RootStackParamList = {
   Login: undefined;
   Home: { name: string };
   AdminScreen: undefined;
+  ActivateUser: undefined; // Add ActivateUser route to the RootStackParamList
+  ForgetPassword: undefined; // Add ForgetPassword route to the RootStackParamList
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -31,3 +33,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
