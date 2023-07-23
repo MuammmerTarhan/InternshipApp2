@@ -10,3 +10,17 @@ export type UserData = {
   role: string;
   enabled: string;
 };
+
+// src/types.ts
+
+// Define the types for your stack navigation parameters here
+type RootStackParamList = {
+  Login: undefined;
+  Home: { name: string };
+  AdminScreen: undefined;
+  ActivateUser: undefined;
+  ForgetPassword: undefined;
+};
+
+export type { RootStackParamList };
+

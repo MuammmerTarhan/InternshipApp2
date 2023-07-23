@@ -1,12 +1,18 @@
 // src/screens/LoginScreen.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { RootStackParamList } from '../types'; // Assuming you have defined the RootStackParamList type in a separate file
 
 import dataCSV from '../utils/data';
 
+// Define the type for the navigation prop
+type LoginScreenNavigationProp = NavigationProp<RootStackParamList, 'Login'>;
+
 const LoginScreen: React.FC = () => {
-  const navigation = useNavigation();
+  // Use the defined type for the navigation prop
+  const navigation = useNavigation<LoginScreenNavigationProp>();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
