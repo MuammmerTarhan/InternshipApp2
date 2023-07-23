@@ -1,15 +1,34 @@
 // src/screens/LoginScreen.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import dataCSV from '../utils/data';
+
 const LoginScreen: React.FC = () => {
   const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     // Implement your login logic here
-    console.log('Login button pressed!');
-    // Additional logic for handling login can be added here
+    const rows = dataCSV.trim().split('\n').slice(1); // Remove the header row
+    const users = rows.map((row) => row.split(','));
+
+    const user = users.find((user) => user[1] === email && user[2] === password);
+    if (user) {
+      // If user is found, check the role and navigate accordingly
+      const role = user[5].trim().toLowerCase();
+      if (role === 'user') {
+        // Navigate to HomeScreen with parameters
+        navigation.navigate('Home', { name: user[3] });
+      } else if (role === 'admin') {
+        navigation.navigate('AdminScreen');
+      }
+    } else {
+      // Handle invalid login credentials here (optional)
+      console.log('Invalid login credentials');
+    }
   };
 
   const handleActivateUser = () => {
@@ -30,6 +49,8 @@ const LoginScreen: React.FC = () => {
           placeholder="Enter your email"
           keyboardType="email-address"
           autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -38,6 +59,8 @@ const LoginScreen: React.FC = () => {
           style={styles.input}
           placeholder="Enter your password"
           secureTextEntry
+          value={password}
+          onChangeText={setPassword}
         />
       </View>
       <View style={styles.buttonsContainer}>
