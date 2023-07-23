@@ -1,8 +1,6 @@
-// src/screens/ActivateUserScreen.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
-// Assume this is your user data containing email and enabled fields
 import dataCSV from '../utils/data'; // Import your data here
 
 const ActivateUserScreen: React.FC = () => {
@@ -13,23 +11,29 @@ const ActivateUserScreen: React.FC = () => {
     const usersData = dataCSV.split('\n').slice(1); // Remove the header row and split into individual rows
     const userDataArray = usersData.map((row) => row.split(',')); // Split each row into an array
 
-    const foundUser = userDataArray.find((user) => user[1] === email && user[4] === '1');
+    const foundUser = userDataArray.find((user) => user[1] === email);
 
     if (foundUser) {
-      // User exists in data and is enabled (enabled is 1)
-      // Simulate sending the activation email with a timeout
-      setTimeout(() => {
-        Alert.alert('Success', 'Activation email sent successfully.');
-        // Additional logic after sending the email can be added here if needed
-      }, 1500); // Delay of 1.5 seconds
+      if (foundUser[8] === '0') {
+        // User exists in data and is enabled (enabled is 0)
+        Alert.alert('Error', 'Invalid email or user is already activated.');
+      } else {
+        // User exists in data and is not enabled (enabled is 0)
+        // Simulate sending the activation email with a timeout
+        setTimeout(() => {
+          Alert.alert('Success', 'Activation email sent successfully.');
+          // Additional logic after sending the email can be added here if needed
+        }, 1500); // Delay of 1.5 seconds
+      }
     } else {
-      Alert.alert('Error', 'Invalid email or user is already activated.');
+      // User not found in data
+      Alert.alert('Error', 'Invalid email.');
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Activate User Screen</Text>
+      <Text style={styles.text}>Forget Password Screen</Text>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Email:</Text>
         <TextInput

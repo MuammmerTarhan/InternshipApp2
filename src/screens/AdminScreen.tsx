@@ -1,24 +1,27 @@
 // src/screens/AdminScreen.tsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-
 const AdminScreen: React.FC = () => {
-  const [id, setId] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [role, setRole] = useState('User'); // Default role is 'User'
+  const [surname, setSurname] = useState('');
+  const [department, setDepartment] = useState('');
+  const [company, setCompany] = useState('');
+  const [role, setRole] = useState(''); // Default role is an empty string
   const navigation = useNavigation();
 
   const handleAddUser = () => {
     // Implement logic to add user to the CSV data
     // For simplicity, we will just show the entered data in an alert
     const newUser = {
-      id: id,
       mail: email,
       password: null, // Default password is null
       name: name,
+      surname: surname,
+      department: department,
+      company: company,
       enabled: '0', // Default enabled is 0
       role: role,
     };
@@ -26,59 +29,102 @@ const AdminScreen: React.FC = () => {
     // Perform any additional validation or checks here before adding the user
     // ...
 
-    alert('User added successfully!\n\nID: ' + id + '\nEmail: ' + email + '\nName: ' + name + '\nRole: ' + role);
+    alert(
+      'User added successfully!\n\nEmail: ' +
+        email +
+        '\nName: ' +
+        name +
+        '\nSurname: ' +
+        surname +
+        '\nDepartment: ' +
+        department +
+        '\nCompany: ' +
+        company +
+        '\nRole: ' +
+        role
+    );
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.text}>Admin Screen</Text>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>ID:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter user's ID"
-          keyboardType="numeric"
-          onChangeText={(text) => setId(text)}
-          value={id}
-        />
-      </View>
-      <View style={styles.inputContainer}>
         <Text style={styles.label}>Email:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter user's email"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-        />
+        <View style={styles.inputBox}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter user's email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+          />
+        </View>
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Name:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter user's name"
-          onChangeText={(text) => setName(text)}
-          value={name}
-        />
+        <View style={styles.inputBox}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter user's name"
+            onChangeText={(text) => setName(text)}
+            value={name}
+          />
+        </View>
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Surname:</Text>
+        <View style={styles.inputBox}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter user's surname"
+            onChangeText={(text) => setSurname(text)}
+            value={surname}
+          />
+        </View>
+      </View>
+      {/* Updated layout for displaying department */}
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Department:</Text>
+        <View style={styles.inputBox}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter user's department"
+            onChangeText={(text) => setDepartment(text)}
+            value={department}
+          />
+        </View>
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Company:</Text>
+        <View style={styles.inputBox}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter user's company"
+            onChangeText={(text) => setCompany(text)}
+            value={company}
+          />
+        </View>
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Role:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter user's role"
-          onChangeText={(text) => setRole(text)}
-          value={role}
-        />
+        <View style={styles.inputBox}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter role"
+            onChangeText={(text) => setRole(text)}
+            value={role}
+          />
+        </View>
       </View>
       <Button title="Add User" onPress={handleAddUser} />
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -97,18 +143,20 @@ const styles = StyleSheet.create({
     marginRight: 10,
     fontSize: 16,
   },
-  input: {
-    flex: 2,
-    height: 40,
+  inputBox: {
+    flex: 2, // This will create a "box" around the input
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
+  },
+  input: {
+    height: 40,
     padding: 10,
   },
 });
 
 export default AdminScreen;
 function alert(arg0: string) {
-    throw new Error('Function not implemented.');
+  throw new Error('Function not implemented.');
 }
 

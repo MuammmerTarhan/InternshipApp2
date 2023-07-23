@@ -18,7 +18,7 @@ const LoginScreen: React.FC = () => {
     const user = users.find((user) => user[1] === email && user[2] === password);
     if (user) {
       // If user is found, check the role and navigate accordingly
-      const role = user[5].trim().toLowerCase();
+      const role = user[7].trim().toLowerCase();
       if (role === 'user') {
         // Navigate to HomeScreen with parameters
         navigation.navigate('Home', { name: user[3] });

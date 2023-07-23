@@ -1,10 +1,12 @@
 // src/types.ts
-export interface UserData {
-    id: string;
-    mail: string;
-    password: string | null;
-    name: string;
-    enabled: string;
-    role: string;
-  }
-  
+export type UserData = {
+  id: string;
+  email: string;
+  password: string | null;
+  name: string;
+  surname: string;
+  department: string;
+  company: string;
+  role: string;
+  enabled: string;
+};
