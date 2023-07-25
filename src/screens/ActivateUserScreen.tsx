@@ -1,26 +1,35 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-
 import config from './../confic';
-
-// Import the dataCSV from the utils file
-import dataCSV from '../utils/data';
 
 const ActivateUserScreen: React.FC = () => {
   const [email, setEmail] = useState('');
 
-  const handleActivateUser = () => {
-    const usersData = dataCSV.trim().split('\n').slice(1); // Remove header row and split into individual rows
-    const userDataArray = usersData.map((row) => row.split(',')); // Split each row into an array
+  const handleActivateUser = async () => {
+    try {
+      // Make a POST request to the backend API to activate the user
+      const response = await fetch(`${config.backendURL}/auth/activateAccount`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      });
 
-    const foundUser = userDataArray.find((user) => user[1] === email && user[8] === '0');
+      const data = await response.json();
 
-    if (foundUser) {
-      // User exists in data and is not enabled (enabled is 0)
-      Alert.alert('Success', 'User activation mail sent successfully.');
-    } else {
-      // Either user is not found or user is already activated
-      Alert.alert('Error', 'Invalid email or user is already activated.');
+      if (response.ok) {
+        // If the request is successful, display a success message
+        Alert.alert('Success', 'User activation email sent successfully.');
+      } else {
+        // If the request fails, display an error message with the error details from the API
+        Alert.alert('Error', data.message || 'An error occurred while processing your request.');
+      }
+    } catch (error) {
+      // Handle any network or other errors that might occur
+      Alert.alert('Error', 'An error occurred while processing your request.');
     }
   };
 

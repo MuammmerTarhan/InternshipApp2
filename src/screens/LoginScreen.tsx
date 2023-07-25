@@ -1,41 +1,38 @@
-// src/screens/LoginScreen.tsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../types'; // Assuming you have defined the RootStackParamList type in a separate file
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 import config from './../confic';
 
-import dataCSV from '../utils/data';
-
-// Define the type for the navigation prop
-type LoginScreenNavigationProp = NavigationProp<RootStackParamList, 'Login'>;
-
 const LoginScreen: React.FC = () => {
-  // Use the defined type for the navigation prop
-  const navigation = useNavigation<LoginScreenNavigationProp>();
-
+  const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    // Implement your login logic here
-    const rows = dataCSV.trim().split('\n').slice(1); // Remove the header row
-    const users = rows.map((row) => row.split(','));
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(`${config.backendURL}/auth/login`, {
+        email: email,
+        password: password,
+      });
 
-    const user = users.find((user) => user[1] === email && user[2] === password);
-    if (user) {
-      // If user is found, check the role and navigate accordingly
-      const role = user[7].trim().toLowerCase();
-      if (role === 'user') {
-        // Navigate to HomeScreen with parameters
-        navigation.navigate('Home', { name: user[3] });
-      } else if (role === 'admin') {
-        navigation.navigate('AdminScreen');
+      if (response.status === 200) {
+        const { user } = response.data.data;
+        console.log('User Data:', user);
+
+        if (user.role.name === 'Admin') {
+          navigation.navigate('AdminScreen');
+        } else {
+          navigation.navigate('Home', { name: user.name });
+        }
+
+        Alert.alert('Success', 'Login successful!');
+      } else {
+        Alert.alert('Error', 'Invalid credentials. Please try again.');
       }
-    } else {
-      // Handle invalid login credentials here (optional)
-      console.log('Invalid login credentials');
+    } catch (error) {
+      Alert.alert('Error', 'An error occurred while processing your request.');
     }
   };
 

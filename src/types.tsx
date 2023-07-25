@@ -1,23 +1,22 @@
-// src/types.ts
-export type UserData = {
-  id: string;
-  email: string;
-  password: string | null;
+interface User {
+  createdAt: string;
+  deletedAt: string | null;
+  id: number;
+  role: {
+    createdAt: string;
+    id: number;
+    name: string;
+  };
   name: string;
   surname: string;
-  department: string;
-  company: string;
-  role: string;
-  enabled: string;
-};
-
-
-type RootStackParamList = {
-  Login: undefined;
-  Home: { name: string };
-  AdminScreen: undefined;
-  ActivateUser: undefined;
-  ForgetPassword: undefined;
-};
-
-export type { RootStackParamList };
+  email: string;
+  password: string;
+  enabled: boolean;
+  username: string;
+  authorities: {
+    authority: string;
+  }[];
+  accountNonExpired: boolean;
+  accountNonLocked: boolean;
+  credentialsNonExpired: boolean;
+}

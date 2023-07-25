@@ -3,33 +3,34 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
 import config from './../confic';
 
-import dataCSV from '../utils/data'; // Import your data here
-
 const ForgetPasswordScreen: React.FC = () => {
   const [email, setEmail] = useState('');
 
-  const handleForgetPassword = () => {
-    // Assuming dataCSV is an array of user objects with 'email' and 'enabled' fields
-    const usersData = dataCSV.split('\n').slice(1); // Remove the header row and split into individual rows
-    const userDataArray = usersData.map((row) => row.split(',')); // Split each row into an array
+  const handleForgetPassword = async () => {
+    try {
+      // Make a POST request to the backend API to trigger the "Forgot Password" functionality
+      const response = await fetch(`${config.backendURL}/auth/forgotPassword`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+        }),
+      });
 
-    const foundUser = userDataArray.find((user) => user[1] === email);
+      const data = await response.json();
 
-    if (foundUser) {
-      if (foundUser[8] === '1') {
-        // User exists in data and is enabled (enabled is 1)
-        // Simulate sending the reset password email with a timeout
-        setTimeout(() => {
-          Alert.alert('Success', 'Password reset email sent successfully.');
-          // Additional logic after sending the email can be added here if needed
-        }, 1500); // Delay of 1.5 seconds
+      if (response.ok) {
+        // If the request is successful, display a success message
+        Alert.alert('Success', 'Password reset email sent successfully.');
       } else {
-        // User exists in data but is not enabled (enabled is 0)
-        Alert.alert('Error', 'User account is not activated. Please activate your account first.');
+        // If the request fails, display an error message with the error details from the API
+        Alert.alert('Error', data.message || 'An error occurred while processing your request.');
       }
-    } else {
-      // User not found in data
-      Alert.alert('Error', 'Invalid email.');
+    } catch (error) {
+      // Handle any network or other errors that might occur
+      Alert.alert('Error', 'An error occurred while processing your request.');
     }
   };
 
