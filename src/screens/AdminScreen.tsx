@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import config from './../confic';
+
 const AdminScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');

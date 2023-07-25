@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
+import config from './../confic';
+
 import dataCSV from '../utils/data'; // Import your data here
 
 const ForgetPasswordScreen: React.FC = () => {

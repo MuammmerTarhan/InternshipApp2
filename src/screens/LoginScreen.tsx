@@ -4,6 +4,8 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../types'; // Assuming you have defined the RootStackParamList type in a separate file
 
+import config from './../confic';
+
 import dataCSV from '../utils/data';
 
 // Define the type for the navigation prop

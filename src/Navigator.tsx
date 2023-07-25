@@ -7,6 +7,8 @@ import HomeScreen from './screens/HomeScreen';
 import AdminScreen from './screens/AdminScreen';
 import ActivateUserScreen from './screens/ActivateUserScreen';
 import ForgetPasswordScreen from './screens/ForgetPasswordScreen';
+import config from './confic';
+
 
 export type RootStackParamList = {
   Login: undefined;

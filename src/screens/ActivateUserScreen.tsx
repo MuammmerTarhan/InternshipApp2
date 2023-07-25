@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
+import config from './../confic';
+
 // Import the dataCSV from the utils file
 import dataCSV from '../utils/data';
 

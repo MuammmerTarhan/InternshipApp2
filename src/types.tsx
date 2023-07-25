@@ -11,9 +11,7 @@ export type UserData = {
   enabled: string;
 };
 
-// src/types.ts
 
-// Define the types for your stack navigation parameters here
 type RootStackParamList = {
   Login: undefined;
   Home: { name: string };
@@ -23,4 +21,3 @@ type RootStackParamList = {
 };
 
 export type { RootStackParamList };
-

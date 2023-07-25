@@ -3,6 +3,8 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
+import config from './../confic';
+
 // Define the type for the route.params object
 type HomeScreenParams = {
   name: string;
