@@ -18,9 +18,9 @@ type AdminScreenProps = {
 const AdminScreen: React.FC<AdminScreenProps> = ({ route, navigation }) => {
   const { accessToken } = route.params; // Get the accessToken from the route params
 
-  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
+  const [email, setEmail] = useState('');
   const [department, setDepartment] = useState('');
   const [company, setCompany] = useState('');
   const [role, setRole] = useState('');
@@ -36,14 +36,11 @@ const AdminScreen: React.FC<AdminScreenProps> = ({ route, navigation }) => {
         departmentId: Number(department),
         companyId: Number(company),
       };
-
       // Make the API request to create the new user and pass the accessToken in the header
-      const response = await axios.post('/users/create', newUser, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
+      const response = await axios.post('https://delta.eu-west-1.elasticbeanstalk.com/users/create', newUser, 
+      { headers: { Authorization: accessToken }
+    });
+      
       console.log('New User:', response.data);
       Alert.alert('Success', 'User added successfully!');
     } catch (error: any) {
