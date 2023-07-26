@@ -1,38 +1,37 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
-
-import config from './../confic';
+import { makeRequest } from './../api';
 
 const LoginScreen: React.FC = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [accessToken, setAccessToken] = useState('');
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${config.backendURL}/auth/login`, {
+      const response = await makeRequest('post', '/auth/login', {
         email: email,
         password: password,
       });
 
-      if (response.status === 200) {
-        const { user } = response.data.data;
-        console.log('User Data:', user);
+      const { accessToken, user } = response.data;
+      console.log('User Data:', user);
+      console.log('Access Token:', accessToken);
 
-        if (user.role.name === 'Admin') {
-          navigation.navigate('AdminScreen');
-        } else {
-          navigation.navigate('Home', { name: user.name });
-        }
+      // Set the access token in the state
+      setAccessToken(accessToken);
 
-        Alert.alert('Success', 'Login successful!');
+      if (user.role.name === 'Admin') {
+        navigation.navigate('AdminScreen', { accessToken }); // Pass the accessToken to the AdminScreen
       } else {
-        Alert.alert('Error', 'Invalid credentials. Please try again.');
+        navigation.navigate('Home', { name: user.name });
       }
-    } catch (error) {
-      Alert.alert('Error', 'An error occurred while processing your request.');
+
+      Alert.alert('Success', 'Login successful!');
+    } catch (error: any) {
+      Alert.alert('Error', error.message);
     }
   };
 

@@ -1,50 +1,54 @@
-// src/screens/AdminScreen.tsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView, Alert } from 'react-native';
+import { useNavigation, RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import axios from 'axios';
 
-import config from './../confic';
+// Define the type for the route params
+type RootStackParamList = {
+  AdminScreen: { accessToken: string };
+};
 
-const AdminScreen: React.FC = () => {
+// Define the prop type for the AdminScreen component
+type AdminScreenProps = {
+  route: RouteProp<RootStackParamList, 'AdminScreen'>;
+  navigation: StackNavigationProp<RootStackParamList, 'AdminScreen'>;
+};
+
+const AdminScreen: React.FC<AdminScreenProps> = ({ route, navigation }) => {
+  const { accessToken } = route.params; // Get the accessToken from the route params
+
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [department, setDepartment] = useState('');
   const [company, setCompany] = useState('');
-  const [role, setRole] = useState(''); // Default role is an empty string
-  const navigation = useNavigation();
+  const [role, setRole] = useState('');
 
-  const handleAddUser = () => {
-    // Implement logic to add user to the CSV data
-    // For simplicity, we will just show the entered data in an alert
-    const newUser = {
-      mail: email,
-      password: null, // Default password is null
-      name: name,
-      surname: surname,
-      department: department,
-      company: company,
-      enabled: '0', // Default enabled is 0
-      role: role,
-    };
+  const handleAddUser = async () => {
+    try {
+      // Create a new user object with the form data
+      const newUser = {
+        name: name,
+        surname: surname,
+        email: email,
+        roleId: Number(role),
+        departmentId: Number(department),
+        companyId: Number(company),
+      };
 
-    // Perform any additional validation or checks here before adding the user
-    // ...
+      // Make the API request to create the new user and pass the accessToken in the header
+      const response = await axios.post('/users/create', newUser, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
-    alert(
-      'User added successfully!\n\nEmail: ' +
-        email +
-        '\nName: ' +
-        name +
-        '\nSurname: ' +
-        surname +
-        '\nDepartment: ' +
-        department +
-        '\nCompany: ' +
-        company +
-        '\nRole: ' +
-        role
-    );
+      console.log('New User:', response.data);
+      Alert.alert('Success', 'User added successfully!');
+    } catch (error: any) {
+      Alert.alert('Error', error.message);
+    }
   };
 
   return (
@@ -85,7 +89,6 @@ const AdminScreen: React.FC = () => {
           />
         </View>
       </View>
-      {/* Updated layout for displaying department */}
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Department:</Text>
         <View style={styles.inputBox}>
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   inputBox: {
-    flex: 2, // This will create a "box" around the input
+    flex: 2,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
@@ -155,10 +158,6 @@ const styles = StyleSheet.create({
     height: 40,
     padding: 10,
   },
-});
+}); 
 
 export default AdminScreen;
-function alert(arg0: string) {
-  throw new Error('Function not implemented.');
-}
-
