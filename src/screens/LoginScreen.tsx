@@ -27,7 +27,7 @@ const LoginScreen: React.FC = () => {
       if (user.role.name === 'Admin') {
         navigation.navigate('AdminScreen', { accessToken }); // Pass the accessToken to the AdminScreen
       } else {
-        navigation.navigate('Home', { name: user.name , id: user.id, accessToken});
+        navigation.navigate('Home', { name: user.name });
       }
 
       Alert.alert('Success', 'Login successful!');
