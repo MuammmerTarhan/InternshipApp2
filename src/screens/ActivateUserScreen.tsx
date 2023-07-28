@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import config from './../confic';
+import { globalStyles } from '../styles';
 
 const ActivateUserScreen: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -34,53 +35,24 @@ const ActivateUserScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Activate User Screen</Text>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Email:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your email"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
+    <View style={globalStyles.container}>
+      <Text style={globalStyles.text}>Activate User Screen</Text>
+      <View style={globalStyles.inputContainer}>
+        <Text style={globalStyles.label}>Email:</Text>
+        <View style={globalStyles.inputBox}>
+          <TextInput
+            style={globalStyles.input}
+            placeholder="Enter your email"
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
       </View>
       <Button title="Activate User" onPress={handleActivateUser} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  text: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  label: {
-    flex: 1,
-    marginRight: 10,
-    fontSize: 16,
-  },
-  input: {
-    flex: 2,
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-  },
-});
 
 export default ActivateUserScreen;

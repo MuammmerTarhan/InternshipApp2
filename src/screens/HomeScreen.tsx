@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { globalStyles } from '../styles';
 
 import config from './../confic';
 
@@ -21,22 +22,11 @@ const HomeScreen: React.FC = () => {
   const { name } = route.params;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Welcome, {name}!</Text>
+    <View style={globalStyles.container}>
+      <Text style={globalStyles.text}>Welcome, {name}!</Text>
+      {/* ... */}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-});
 
 export default HomeScreen;

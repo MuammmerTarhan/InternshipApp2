@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, ScrollView, Alert } from 're
 import { useNavigation, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import axios from 'axios';
+import { globalStyles } from '../styles';
 
 // Define the type for the route params
 type RootStackParamList = {
@@ -49,13 +50,13 @@ const AdminScreen: React.FC<AdminScreenProps> = ({ route, navigation }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.text}>Admin Screen</Text>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Email:</Text>
-        <View style={styles.inputBox}>
+    <View style={globalStyles.container}>
+      <Text style={globalStyles.text}>Admin Screen</Text>
+      <View style={globalStyles.inputContainer}>
+        <Text style={globalStyles.label}>Email:</Text>
+        <View style={globalStyles.inputBox}>
           <TextInput
-            style={styles.input}
+            style={globalStyles.input}
             placeholder="Enter user's email"
             keyboardType="email-address"
             autoCapitalize="none"
@@ -64,55 +65,55 @@ const AdminScreen: React.FC<AdminScreenProps> = ({ route, navigation }) => {
           />
         </View>
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Name:</Text>
-        <View style={styles.inputBox}>
+      <View style={globalStyles.inputContainer}>
+        <Text style={globalStyles.label}>Name:</Text>
+        <View style={globalStyles.inputBox}>
           <TextInput
-            style={styles.input}
+            style={globalStyles.input}
             placeholder="Enter user's name"
             onChangeText={(text) => setName(text)}
             value={name}
           />
         </View>
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Surname:</Text>
-        <View style={styles.inputBox}>
+      <View style={globalStyles.inputContainer}>
+        <Text style={globalStyles.label}>Surname:</Text>
+        <View style={globalStyles.inputBox}>
           <TextInput
-            style={styles.input}
+            style={globalStyles.input}
             placeholder="Enter user's surname"
             onChangeText={(text) => setSurname(text)}
             value={surname}
           />
         </View>
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Department:</Text>
-        <View style={styles.inputBox}>
+      <View style={globalStyles.inputContainer}>
+        <Text style={globalStyles.label}>Department:</Text>
+        <View style={globalStyles.inputBox}>
           <TextInput
-            style={styles.input}
+            style={globalStyles.input}
             placeholder="Enter user's department"
             onChangeText={(text) => setDepartment(text)}
             value={department}
           />
         </View>
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Company:</Text>
-        <View style={styles.inputBox}>
+      <View style={globalStyles.inputContainer}>
+        <Text style={globalStyles.label}>Company:</Text>
+        <View style={globalStyles.inputBox}>
           <TextInput
-            style={styles.input}
+            style={globalStyles.input}
             placeholder="Enter user's company"
             onChangeText={(text) => setCompany(text)}
             value={company}
           />
         </View>
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Role:</Text>
-        <View style={styles.inputBox}>
+      <View style={globalStyles.inputContainer}>
+        <Text style={globalStyles.label}>Role:</Text>
+        <View style={globalStyles.inputBox}>
           <TextInput
-            style={styles.input}
+            style={globalStyles.input}
             placeholder="Enter role"
             onChangeText={(text) => setRole(text)}
             value={role}
@@ -120,41 +121,8 @@ const AdminScreen: React.FC<AdminScreenProps> = ({ route, navigation }) => {
         </View>
       </View>
       <Button title="Add User" onPress={handleAddUser} />
-    </ScrollView>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  text: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  label: {
-    flex: 1,
-    marginRight: 10,
-    fontSize: 16,
-  },
-  inputBox: {
-    flex: 2,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-  },
-  input: {
-    height: 40,
-    padding: 10,
-  },
-}); 
 
 export default AdminScreen;
