@@ -36,7 +36,7 @@ const ActivateUserScreen: React.FC = () => {
 
   return (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.text}>Activate User Screen</Text>
+      <Text style={globalStyles.text}>Activate User</Text>
       <View style={globalStyles.inputContainer}>
         <Text style={globalStyles.label}>Email:</Text>
         <View style={globalStyles.inputBox}>

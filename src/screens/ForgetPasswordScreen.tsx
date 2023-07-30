@@ -37,7 +37,7 @@ const ForgetPasswordScreen: React.FC = () => {
 
   return (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.text}>Forget Password Screen</Text>
+      <Text style={globalStyles.text}>Forget Password</Text>
       <View style={globalStyles.inputContainer}>
         <Text style={globalStyles.label}>Email:</Text>
         <View style={globalStyles.inputBox}>

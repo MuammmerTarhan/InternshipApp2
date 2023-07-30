@@ -46,7 +46,7 @@ const LoginScreen: React.FC = () => {
 
   return (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.text}>Login Screen</Text>
+      <Text style={globalStyles.text}>Welcome to Delta</Text>
       <View style={globalStyles.inputContainer}>
         <Text style={globalStyles.label}>Email:</Text>
         <View style={globalStyles.inputBox}>

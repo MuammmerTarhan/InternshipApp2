@@ -6,10 +6,11 @@ export const globalStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: '#fff', 
   },
   text: {
     fontSize: 24,
-    marginBottom: 20,
+    marginBottom: 25,
   },
   inputContainer: {
     flexDirection: 'row',
