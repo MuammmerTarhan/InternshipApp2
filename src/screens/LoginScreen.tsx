@@ -74,6 +74,8 @@ const LoginScreen: React.FC = () => {
       </View>
       <View style={globalStyles.buttonsContainer}>
         <Button title="Login" onPress={handleLogin} />
+      </View>
+      <View style={globalStyles.buttonsContainer}>
         <Button title="Activate User" onPress={handleActivateUser} />
         <Button title="Forget Password" onPress={handleForgetPassword} />
       </View>
