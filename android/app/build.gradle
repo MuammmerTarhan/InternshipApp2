@@ -1,5 +1,5 @@
-apply plugin: "com.android.application"
-apply plugin: "com.facebook.react"
+apply plugin: "com.android.tools.build:gradle"
+apply plugin: "com.facebook.react:react-native-gradle-plugin"
 
 /**
  * This is the configuration block to customize your React Native Android app.
